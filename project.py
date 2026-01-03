@@ -23,7 +23,7 @@ caught_counter=0
 escape_chance=0
 escape_check=False
 
-
+#=========Ishrak============
 min_of_x = GRID_LENGTH * (-6)  
 max_of_x = GRID_LENGTH * (7)   
 min_of_y = GRID_LENGTH * (-7)  
@@ -40,7 +40,7 @@ slow_mode = False
 blink_on = False          
 blink_counter = 0       
 BLINK_PERIOD_FRAMES = 120 
-
+#=========Ishrak============
 
 def draw_text(x, y, text, font=GLUT_BITMAP_HELVETICA_18):
     glColor3f(1,1,1)
@@ -103,7 +103,7 @@ def draw_player(x,y,z, size=1):
         gluCylinder(gluNewQuadric(), 0, 4, 14, 10, 10)  
         glPopMatrix()
     glPopMatrix()
-
+#=========Ishrak============
 def draw_borders(height=125):  
     xL = min_of_x
     xR = max_of_x
@@ -185,7 +185,7 @@ def draw_small_fish(x,y,z,angle):
     draw_npc_fish(x, y, z, angle, size=0.55, color=(0.2, 1.0, 0.6))
 
 def draw_big_fish(x,y,z,angle):
-    draw_npc_fish(x, y, z, angle, size=1.25, body_rgb=(0.7, 0.2, 1.0)) 
+    draw_npc_fish(x, y, z, angle, size=1.25, color=(0.7, 0.2, 1.0)) 
 
 def draw_stone(x,y,z=0,scale=1.0,sink=0.35):  
     glPushMatrix()
@@ -244,6 +244,7 @@ def draw_fullscreen_red_blink():
     glPopMatrix()
     glMatrixMode(GL_MODELVIEW)
     
+#===========================
 
 def draw_wave(var, direction):
     if wave==True:
@@ -259,7 +260,7 @@ def draw_wave(var, direction):
         glColor3f(0.2,0.2, 1)
         gluCylinder(gluNewQuadric(), 30,30, 1500, 10, 10)  
         glPopMatrix()
-
+#=========Ishrak============
 def spawn_environment():  
     global stones, plants, small_fishes, big_fishes
     stones = []
@@ -312,6 +313,7 @@ def update_environment():
     plant_wave_offset += 0.03  
     update_fish_list(small_fishes)
     update_fish_list(big_fishes)
+#==============================
 
 def keyboardListener(key, x, y):
     global player_pos, player_angle,health, pov, exp,camera_pos, hunger_counter, slow_mode, blink_counter, blink_on
@@ -324,10 +326,11 @@ def keyboardListener(key, x, y):
     angle= math.radians(theta)
     x2=5*math.sin(angle)
     y2=-5*math.cos(angle)
-
+#=============Ishrak==============
     if slow_mode:  
         x2 *= MOVE_SLOW_FACTOR  
         y2 *= MOVE_SLOW_FACTOR  
+#================================
     # Move forward (W key)
     if (key == b'w' or key == b'W') and health>0:
         if GRID_LENGTH*(6)>=y1+y2>=GRID_LENGTH*(-7) and GRID_LENGTH*(7)>=x1+x2>=GRID_LENGTH*(-6):
@@ -356,12 +359,13 @@ def keyboardListener(key, x, y):
         exp=20
         pov=False
         camera_pos=(0,300,100)
+#=========Ishrak============
         hunger_counter = 0      
         slow_mode = False       
         blink_on = False       
         blink_counter = 0     
         spawn_environment()     
-
+#=============================
 def specialKeyListener(key, x, y):
     """
     Handles special key inputs (arrow keys) for adjusting the camera angle and height.
@@ -475,7 +479,7 @@ def idle():
             exp+=(health+20-100)
             health=100
         food=False
-        
+#=====================Ishrak=========================
     if hunger_counter >= HUNGER_LIMIT:
         slow_mode = True
         blink_counter = (blink_counter + 1) % (2 * BLINK_PERIOD_FRAMES)
@@ -486,6 +490,7 @@ def idle():
         blink_counter = 0
 
     update_environment()  
+    #=====================================
     
     #wave logic===========================================================
     if wave==False:
@@ -594,7 +599,7 @@ def showScreen():
         startx=GRID_LENGTH*(-6)
         starty+=GRID_LENGTH
     glEnd()
-    
+#===========Ishrak============
     draw_borders(125)
     
     for sx, sy, sz, sc in stones:
@@ -607,7 +612,7 @@ def showScreen():
         draw_small_fish(f["x"], f["y"], f["z"], f["a"])
     for f in big_fishes:
         draw_big_fish(f["x"], f["y"], f["z"], f["a"])
-
+#==================================
     # Display game info text at a fixed screen position
     if health==0 or exp==0:
         draw_text(10, 770, "Game is Over.")
@@ -627,6 +632,10 @@ def showScreen():
     #     draw_enemy(li1)
 
     draw_player(x,y,z)
+    #=========Ishrak============
+    if blink_on and health > 0 and exp > 0:
+        draw_fullscreen_red_blink()
+    #==========================
     if wave:
         draw_wave(var, wave_from)
     # Swap buffers for smooth rendering (double buffering)
@@ -762,6 +771,7 @@ if __name__ == "__main__":
     # glVertex3f(GRID_LENGTH*(7), GRID_LENGTH*(6), 125)
     # glVertex3f(GRID_LENGTH*(7), GRID_LENGTH*(6), 0)
     # glEnd()
+
 
 
 
